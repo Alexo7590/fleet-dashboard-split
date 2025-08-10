@@ -1,0 +1,18 @@
+diff --git a/app.js b/app.js
+--- a/app.js
++++ b/app.js
+@@
+-  escapeHTML(str = '') {
+-    return str.replace(
+-      /[&<>\"']/g,
+-      (c) => ({ '&': '&', '<': '<', '>': '>', '\"': '\"', "'": '\'' }[c])
+-    );
+-  },
++  escapeHTML(str = '') {
++    const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;', "'": '&#39;' };
++    return String(str).replace(/[&<>\"']/g, (c) => map[c]);
++  },
+@@
+-const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
+-const foo = { bar: 'baz' };
++const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));

@@ -1,284 +1,401 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Carpool Fleet Management</title>
-<link rel="stylesheet" href="styles.css">
-<meta name="color-scheme" content="light dark">
-</head>
-<body>
-  <div class="container">
-    <header>
-      <h1 aria-live="polite">Carpool Fleet Management</h1>
-      <nav aria-label="Primary">
-        <a href="#/dashboard" class="tab" id="tab-dashboard">Dashboard</a>
-        <a href="#/fleet" class="tab" id="tab-fleet">Full Fleet</a>
-      </nav>
-      <div class="toolbar" role="region" aria-label="Toolbar">
-        <div class="search">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.35-4.35m1.6-5.65a7.25 7.25 0 11-14.5 0 7.25 7.25 0 0114.5 0z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          <input id="globalSearch" type="search" placeholder="Search vehicles, plates, deliveries (press /)" aria-label="Search across tables">
-        </div>
-        <button id="addVehicleBtn" class="btn">+ Vehicle</button>
-        <button id="addDeliveryBtn" class="btn">+ Delivery</button>
-        <button id="exportBtn" class="btn">Export</button>
-        <label class="btn" for="importInput" title="Import JSON">Import<input id="importInput" type="file" accept="application/json" class="hide" /></label>
-      </div>
-    </header>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Carpool Fleet Management</title>
+    <link rel="stylesheet" href="styles.css" />
+    <meta name="color-scheme" content="light dark" />
+  </head>
+  <script>
+    const foo = { bar: 'baz' };
+  </script>
 
-    <!-- DASHBOARD PAGE -->
-    <section id="page-dashboard" class="grid" role="region" aria-label="Dashboard">
-      <div class="kpis">
-        <div class="card kpi" id="kpiTotal">
-          <div>
-            <div class="label">Total Vehicles</div>
-            <div class="value" data-kpi="totalVehicles">0</div>
+  <body>
+    <div class="container">
+      <header>
+        <h1 aria-live="polite">Carpool Fleet Management</h1>
+        <nav aria-label="Primary">
+          <a href="#/dashboard" class="tab" id="tab-dashboard">Dashboard</a>
+          <a href="#/fleet" class="tab" id="tab-fleet">Full Fleet</a>
+        </nav>
+        <div class="toolbar" role="region" aria-label="Toolbar">
+          <div class="search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M21 21l-4.35-4.35m1.6-5.65a7.25 7.25 0 11-14.5 0 7.25 7.25 0 0114.5 0z"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+            </svg>
+            <input
+              id="globalSearch"
+              type="search"
+              placeholder="Search vehicles, plates, deliveries (press /)"
+              aria-label="Search across tables"
+            />
           </div>
-          <div class="trend mini" data-kpi="utilTrend">Util 0%</div>
+          <button id="addVehicleBtn" class="btn">+ Vehicle</button>
+          <button id="addDeliveryBtn" class="btn">+ Delivery</button>
+          <button id="exportBtn" class="btn">Export</button>
+          <label class="btn" for="importInput" title="Import JSON"
+            >Import<input id="importInput" type="file" accept="application/json" class="hide"
+          /></label>
         </div>
-        <div class="card kpi ok">
-          <div>
-            <div class="label">Available Now</div>
-            <div class="value" data-kpi="availableNow">0</div>
-          </div>
-          <div class="trend" data-kpi="availablePct">0% ready</div>
-        </div>
-        <div class="card kpi warn">
-          <div>
-            <div class="label">Upcoming Deliveries (7d)</div>
-            <div class="value" data-kpi="upcomingDeliveries">0</div>
-          </div>
-          <div class="trend mini" data-kpi="nextDelivery">—</div>
-        </div>
-        <div class="card kpi bad">
-          <div>
-            <div class="label">Needs Attention</div>
-            <div class="value" data-kpi="needsAttention">0</div>
-          </div>
-          <div class="trend mini" data-kpi="attentionLabel">maintenance / low fuel</div>
-        </div>
-      </div>
+      </header>
 
-      <div class="card section">
-        <h2>Utilization (last 30 days)</h2>
-        <canvas id="utilSpark" height="54" aria-label="Utilization sparkline chart" role="img"></canvas>
-        <div class="legend" aria-hidden="true">
-          <span class="pill"><span class="dot" style="color:var(--primary)"></span>Utilization %</span>
-          <span class="pill"><span class="dot" style="color:var(--ok)"></span>7‑day avg</span>
-        </div>
-      </div>
-
-      <div class="card half">
-        <div class="row">
-          <h2 class="spacer">Upcoming Deliveries</h2>
-          <div class="chips">
-            <span class="badge">Next 7 days</span>
-            <button class="ghost mini" id="btnAllUpcoming">All</button>
+      <!-- DASHBOARD PAGE -->
+      <section id="page-dashboard" class="grid" role="region" aria-label="Dashboard">
+        <div class="kpis">
+          <div class="card kpi" id="kpiTotal">
+            <div>
+              <div class="label">Total Vehicles</div>
+              <div class="value" data-kpi="totalVehicles">0</div>
+            </div>
+            <div class="trend mini" data-kpi="utilTrend">Util 0%</div>
+          </div>
+          <div class="card kpi ok">
+            <div>
+              <div class="label">Available Now</div>
+              <div class="value" data-kpi="availableNow">0</div>
+            </div>
+            <div class="trend" data-kpi="availablePct">0% ready</div>
+          </div>
+          <div class="card kpi warn">
+            <div>
+              <div class="label">Upcoming Deliveries (7d)</div>
+              <div class="value" data-kpi="upcomingDeliveries">0</div>
+            </div>
+            <div class="trend mini" data-kpi="nextDelivery">—</div>
+          </div>
+          <div class="card kpi bad">
+            <div>
+              <div class="label">Needs Attention</div>
+              <div class="value" data-kpi="needsAttention">0</div>
+            </div>
+            <div class="trend mini" data-kpi="attentionLabel">maintenance / low fuel</div>
           </div>
         </div>
-        <table aria-label="Upcoming deliveries">
-          <thead>
-            <tr>
-              <th class="sortable" data-sort="date">Date <span class="dir">↕</span></th>
-              <th>Vehicle</th>
-              <th>From → To</th>
-              <th>Driver</th>
-              <th>Status</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="upcomingBody"></tbody>
-        </table>
-        <div class="footer mini">Auto-filters deliveries with a pickup date between today and +7 days. Use “All” to show the full list.</div>
-      </div>
 
-      <div class="card half">
-        <div class="row">
-          <h2 class="spacer">Recent Deliveries</h2>
-          <div class="chips">
-            <span class="badge">Last 7 days</span>
-            <button class="ghost mini" id="btnAllRecent">All</button>
+        <div class="card section">
+          <h2>Utilization (last 30 days)</h2>
+          <canvas
+            id="utilSpark"
+            height="54"
+            aria-label="Utilization sparkline chart"
+            role="img"
+          ></canvas>
+          <div class="legend" aria-hidden="true">
+            <span class="pill"
+              ><span class="dot" style="color: var(--primary)"></span>Utilization %</span
+            >
+            <span class="pill"><span class="dot" style="color: var(--ok)"></span>7‑day avg</span>
           </div>
         </div>
-        <table aria-label="Recent deliveries">
-          <thead>
-            <tr>
-              <th class="sortable" data-sort="date">Date <span class="dir">↕</span></th>
-              <th>Vehicle</th>
-              <th>From → To</th>
-              <th>Driver</th>
-              <th>Status</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="recentBody"></tbody>
-        </table>
-      </div>
 
-      <div class="card section">
-        <div class="row">
-          <h2 class="spacer">Vehicles Ready for Immediate Deployment</h2>
-          <div class="chips">
-            <span class="badge ok">SOC ≥ 40%</span>
-            <span class="badge ok">No maintenance due</span>
-          </div>
-        </div>
-        <table aria-label="Available vehicles">
-          <thead>
-            <tr>
-              <th class="sortable" data-sort="id">ID <span class="dir">↕</span></th>
-              <th class="sortable" data-sort="plate">Plate <span class="dir">↕</span></th>
-              <th>Model</th>
-              <th>Energy</th>
-              <th class="sortable" data-sort="soc">SOC % <span class="dir">↕</span></th>
-              <th>Status</th>
-              <th>Location</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="availableBody"></tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- FLEET PAGE -->
-    <section id="page-fleet" class="grid hide" role="region" aria-label="Full Fleet">
-      <div class="card section">
-        <div class="row">
-          <h2 class="spacer">Full Fleet</h2>
-        </div>
-        <div class="filters" role="region" aria-label="Fleet filters">
-          <input id="fltText" type="search" placeholder="Search (plate, model, notes)">
-          <select id="fltCity"><option value="">City</option></select>
-          <select id="fltPool"><option value="">Pool</option></select>
-          <select id="fltEnergy"><option value="">Energy</option><option>EV</option><option>Hybrid</option><option>Gasoline</option><option>Diesel</option></select>
-          <select id="fltStatus"><option value="">Status</option><option>Available</option><option>In Use</option><option>Reserved</option><option>Maintenance</option></select>
-          <select id="fltHealth"><option value="">Health</option><option>OK</option><option>Maintenance Due</option><option>Critical</option></select>
-          <label class="pill">Min SOC % <input id="fltSocMin" type="number" min="0" max="100" value="0" style="width:72px"></label>
-          <label class="pill">12V ≥ (V) <input id="flt12vMin" type="number" step="0.1" min="0" max="15" value="0" style="width:72px"></label>
-          <label class="pill"><input type="checkbox" id="fltHideMaint" style="margin-right:8px">Hide maintenance</label>
-          <label class="pill"><input type="checkbox" id="fltHideLow" style="margin-right:8px">Hide low SOC (&lt;20%)</label>
-          <label class="pill"><input type="checkbox" id="fltHideUnavailable" style="margin-right:8px">Hide unavailable</label>
-          <button id="fltClear" class="ghost">Reset</button>
-        </div>
-        <div class="row" style="justify-content: space-between; align-items: center; gap: 8px;">
-          <div class="mini" id="fleetCount"></div>
-          <div class="row" style="gap:8px;">
-            <label class="pill">Per page
-              <select id="pageSize">
-                <option>25</option><option selected>50</option><option>100</option><option>200</option>
-              </select>
-            </label>
-            <div class="pill" id="pager">
-              <button id="prevPage" class="mini">Prev</button>
-              <span class="mini" id="pageInfo">1 / 1</span>
-              <button id="nextPage" class="mini">Next</button>
+        <div class="card half">
+          <div class="row">
+            <h2 class="spacer">Upcoming Deliveries</h2>
+            <div class="chips">
+              <span class="badge">Next 7 days</span>
+              <button class="ghost mini" id="btnAllUpcoming">All</button>
             </div>
           </div>
+          <table aria-label="Upcoming deliveries">
+            <thead>
+              <tr>
+                <th class="sortable" data-sort="date">Date <span class="dir">↕</span></th>
+                <th>Vehicle</th>
+                <th>From → To</th>
+                <th>Driver</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="upcomingBody"></tbody>
+          </table>
+          <div class="footer mini">
+            Auto-filters deliveries with a pickup date between today and +7 days. Use “All” to show
+            the full list.
+          </div>
         </div>
-        <table aria-label="Fleet table" id="fleetTable">
-          <thead>
-            <tr>
-              <th class="sortable" data-sort="id">ID <span class="dir">↕</span></th>
-              <th class="sortable" data-sort="plate">Plate <span class="dir">↕</span></th>
-              <th class="sortable" data-sort="model">Model <span class="dir">↕</span></th>
-              <th>Energy</th>
-              <th class="sortable" data-sort="soc">SOC % <span class="dir">↕</span></th>
-              <th>12V (V)</th>
-              <th>Status</th>
-              <th>Health</th>
-              <th class="sortable" data-sort="city">City <span class="dir">↕</span></th>
-              <th class="sortable" data-sort="pool">Pool <span class="dir">↕</span></th>
-              <th>Location</th>
-              <th>Notes</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="fleetBody"></tbody>
-        </table>
-        <div class="footer mini">Columns sortable • Filters + pagination apply after filtering • Import supports (city, pool, soc, aux12v).</div>
-      </div>
-    </section>
 
-    <p class="footer">Tip: press <span class="kbd">/</span> to jump to search. Data persists to your browser (localStorage).</p>
-  </div>
+        <div class="card half">
+          <div class="row">
+            <h2 class="spacer">Recent Deliveries</h2>
+            <div class="chips">
+              <span class="badge">Last 7 days</span>
+              <button class="ghost mini" id="btnAllRecent">All</button>
+            </div>
+          </div>
+          <table aria-label="Recent deliveries">
+            <thead>
+              <tr>
+                <th class="sortable" data-sort="date">Date <span class="dir">↕</span></th>
+                <th>Vehicle</th>
+                <th>From → To</th>
+                <th>Driver</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="recentBody"></tbody>
+          </table>
+        </div>
 
-  <!-- Vehicle Dialog -->
-  <dialog id="vehicleDialog" aria-label="Vehicle dialog">
-    <form method="dialog">
-      <div class="dialog-header">
-        <strong id="vehicleDialogTitle">Add Vehicle</strong>
-        <button class="ghost" value="cancel" aria-label="Close">✕</button>
-      </div>
-      <div class="dialog-body">
-        <div class="form">
-          <input type="hidden" id="vehId">
-          <label>Plate <input id="vehPlate" type="text" placeholder="ABC123" required></label>
-          <label>Model <input id="vehModel" type="text" placeholder="VW ID.4 / Volvo XC40" required></label>
-          <label>Energy Type
-            <select id="vehEnergy">
-              <option>EV</option><option>Hybrid</option><option>Gasoline</option><option>Diesel</option>
-            </select>
-          </label>
-          <label>SOC (%) <input id="vehSOC" type="number" min="0" max="100" value="100" required></label>
-          <label>12V (V) <input id="veh12v" type="number" step="0.1" min="0" max="15" value="12.6"></label>
-          <label>Status
-            <select id="vehStatus">
-              <option>Available</option><option>In Use</option><option>Reserved</option><option>Maintenance</option>
-            </select>
-          </label>
-          <label>Health
-            <select id="vehHealth">
-              <option>OK</option><option>Maintenance Due</option><option>Critical</option>
-            </select>
-          </label>
-          <label>City <input id="vehCity" type="text" placeholder="Malung"></label>
-          <label>Pool <input id="vehPool" type="text" placeholder="Depot A / Staff"></label>
-          <label class="full">Location <input id="vehLocation" type="text" placeholder="Depot A (Malung)"></label>
-          <label class="full">Notes <textarea id="vehNotes" placeholder="Winter tires mounted, etc."></textarea></label>
+        <div class="card section">
+          <div class="row">
+            <h2 class="spacer">Vehicles Ready for Immediate Deployment</h2>
+            <div class="chips">
+              <span class="badge ok">SOC ≥ 40%</span>
+              <span class="badge ok">No maintenance due</span>
+            </div>
+          </div>
+          <table aria-label="Available vehicles">
+            <thead>
+              <tr>
+                <th class="sortable" data-sort="id">ID <span class="dir">↕</span></th>
+                <th class="sortable" data-sort="plate">Plate <span class="dir">↕</span></th>
+                <th>Model</th>
+                <th>Energy</th>
+                <th class="sortable" data-sort="soc">SOC % <span class="dir">↕</span></th>
+                <th>Status</th>
+                <th>Location</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="availableBody"></tbody>
+          </table>
         </div>
-      </div>
-      <div class="dialog-header" style="border-top:1px solid var(--border)">
-        <div class="row">
-          <button value="cancel" class="ghost">Cancel</button>
-          <button id="saveVehicle" class="primary">Save</button>
-        </div>
-      </div>
-    </form>
-  </dialog>
+      </section>
 
-  <!-- Delivery Dialog -->
-  <dialog id="deliveryDialog" aria-label="Delivery dialog">
-    <form method="dialog">
-      <div class="dialog-header">
-        <strong id="deliveryDialogTitle">Add Delivery</strong>
-        <button class="ghost" value="cancel" aria-label="Close">✕</button>
-      </div>
-      <div class="dialog-body">
-        <div class="form">
-          <input type="hidden" id="delivId">
-          <label>Pickup Date <input id="delivDate" type="date" required></label>
-          <label>Driver <input id="delivDriver" type="text" placeholder="Maria Andersson" required></label>
-          <label class="full">Route (From → To) <input id="delivRoute" type="text" placeholder="Gothenburg → Umeå" required></label>
-          <label>Vehicle <select id="delivVehicle" required></select></label>
-          <label>Status
-            <select id="delivStatus">
-              <option>Scheduled</option><option>Dispatched</option><option>Completed</option><option>Cancelled</option>
+      <!-- FLEET PAGE -->
+      <section id="page-fleet" class="grid hide" role="region" aria-label="Full Fleet">
+        <div class="card section">
+          <div class="row">
+            <h2 class="spacer">Full Fleet</h2>
+          </div>
+          <div class="filters" role="region" aria-label="Fleet filters">
+            <input id="fltText" type="search" placeholder="Search (plate, model, notes)" />
+            <select id="fltCity">
+              <option value="">City</option>
             </select>
-          </label>
-          <label class="full">Notes <textarea id="delivNotes" placeholder="Meet contact on arrival, etc."></textarea></label>
+            <select id="fltPool">
+              <option value="">Pool</option>
+            </select>
+            <select id="fltEnergy">
+              <option value="">Energy</option>
+              <option>EV</option>
+              <option>Hybrid</option>
+              <option>Gasoline</option>
+              <option>Diesel</option>
+            </select>
+            <select id="fltStatus">
+              <option value="">Status</option>
+              <option>Available</option>
+              <option>In Use</option>
+              <option>Reserved</option>
+              <option>Maintenance</option>
+            </select>
+            <select id="fltHealth">
+              <option value="">Health</option>
+              <option>OK</option>
+              <option>Maintenance Due</option>
+              <option>Critical</option>
+            </select>
+            <label class="pill"
+              >Min SOC %
+              <input id="fltSocMin" type="number" min="0" max="100" value="0" style="width: 72px"
+            /></label>
+            <label class="pill"
+              >12V ≥ (V)
+              <input
+                id="flt12vMin"
+                type="number"
+                step="0.1"
+                min="0"
+                max="15"
+                value="0"
+                style="width: 72px"
+            /></label>
+            <label class="pill"
+              ><input type="checkbox" id="fltHideMaint" style="margin-right: 8px" />Hide
+              maintenance</label
+            >
+            <label class="pill"
+              ><input type="checkbox" id="fltHideLow" style="margin-right: 8px" />Hide low SOC
+              (&lt;20%)</label
+            >
+            <label class="pill"
+              ><input type="checkbox" id="fltHideUnavailable" style="margin-right: 8px" />Hide
+              unavailable</label
+            >
+            <button id="fltClear" class="ghost">Reset</button>
+          </div>
+          <div class="row" style="justify-content: space-between; align-items: center; gap: 8px">
+            <div class="mini" id="fleetCount"></div>
+            <div class="row" style="gap: 8px">
+              <label class="pill"
+                >Per page
+                <select id="pageSize">
+                  <option>25</option>
+                  <option selected>50</option>
+                  <option>100</option>
+                  <option>200</option>
+                </select>
+              </label>
+              <div class="pill" id="pager">
+                <button id="prevPage" class="mini">Prev</button>
+                <span class="mini" id="pageInfo">1 / 1</span>
+                <button id="nextPage" class="mini">Next</button>
+              </div>
+            </div>
+          </div>
+          <table aria-label="Fleet table" id="fleetTable">
+            <thead>
+              <tr>
+                <th class="sortable" data-sort="id">ID <span class="dir">↕</span></th>
+                <th class="sortable" data-sort="plate">Plate <span class="dir">↕</span></th>
+                <th class="sortable" data-sort="model">Model <span class="dir">↕</span></th>
+                <th>Energy</th>
+                <th class="sortable" data-sort="soc">SOC % <span class="dir">↕</span></th>
+                <th>12V (V)</th>
+                <th>Status</th>
+                <th>Health</th>
+                <th class="sortable" data-sort="city">City <span class="dir">↕</span></th>
+                <th class="sortable" data-sort="pool">Pool <span class="dir">↕</span></th>
+                <th>Location</th>
+                <th>Notes</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="fleetBody"></tbody>
+          </table>
+          <div class="footer mini">
+            Columns sortable • Filters + pagination apply after filtering • Import supports (city,
+            pool, soc, aux12v).
+          </div>
         </div>
-      </div>
-      <div class="dialog-header" style="border-top:1px solid var(--border)">
-        <div class="row">
-          <button value="cancel" class="ghost">Cancel</button>
-          <button id="saveDelivery" class="primary">Save</button>
-        </div>
-      </div>
-    </form>
-  </dialog>
+      </section>
 
-  <script type="module" src="app.js"></script>
-</body>
+      <p class="footer">
+        Tip: press <span class="kbd">/</span> to jump to search. Data persists to your browser
+        (localStorage).
+      </p>
+    </div>
+
+    <!-- Vehicle Dialog -->
+    <dialog id="vehicleDialog" aria-label="Vehicle dialog">
+      <form method="dialog">
+        <div class="dialog-header">
+          <strong id="vehicleDialogTitle">Add Vehicle</strong>
+          <button class="ghost" value="cancel" aria-label="Close">✕</button>
+        </div>
+        <div class="dialog-body">
+          <div class="form">
+            <input type="hidden" id="vehId" />
+            <label>Plate <input id="vehPlate" type="text" placeholder="ABC123" required /></label>
+            <label
+              >Model <input id="vehModel" type="text" placeholder="VW ID.4 / Volvo XC40" required
+            /></label>
+            <label
+              >Energy Type
+              <select id="vehEnergy">
+                <option>EV</option>
+                <option>Hybrid</option>
+                <option>Gasoline</option>
+                <option>Diesel</option>
+              </select>
+            </label>
+            <label
+              >SOC (%) <input id="vehSOC" type="number" min="0" max="100" value="100" required
+            /></label>
+            <label
+              >12V (V) <input id="veh12v" type="number" step="0.1" min="0" max="15" value="12.6"
+            /></label>
+            <label
+              >Status
+              <select id="vehStatus">
+                <option>Available</option>
+                <option>In Use</option>
+                <option>Reserved</option>
+                <option>Maintenance</option>
+              </select>
+            </label>
+            <label
+              >Health
+              <select id="vehHealth">
+                <option>OK</option>
+                <option>Maintenance Due</option>
+                <option>Critical</option>
+              </select>
+            </label>
+            <label>City <input id="vehCity" type="text" placeholder="Malung" /></label>
+            <label>Pool <input id="vehPool" type="text" placeholder="Depot A / Staff" /></label>
+            <label class="full"
+              >Location <input id="vehLocation" type="text" placeholder="Depot A (Malung)"
+            /></label>
+            <label class="full"
+              >Notes <textarea id="vehNotes" placeholder="Winter tires mounted, etc."></textarea>
+            </label>
+          </div>
+        </div>
+        <div class="dialog-header" style="border-top: 1px solid var(--border)">
+          <div class="row">
+            <button value="cancel" class="ghost">Cancel</button>
+            <button id="saveVehicle" class="primary">Save</button>
+          </div>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- Delivery Dialog -->
+    <dialog id="deliveryDialog" aria-label="Delivery dialog">
+      <form method="dialog">
+        <div class="dialog-header">
+          <strong id="deliveryDialogTitle">Add Delivery</strong>
+          <button class="ghost" value="cancel" aria-label="Close">✕</button>
+        </div>
+        <div class="dialog-body">
+          <div class="form">
+            <input type="hidden" id="delivId" />
+            <label>Pickup Date <input id="delivDate" type="date" required /></label>
+            <label
+              >Driver <input id="delivDriver" type="text" placeholder="Maria Andersson" required
+            /></label>
+            <label class="full"
+              >Route (From → To)
+              <input id="delivRoute" type="text" placeholder="Gothenburg → Umeå" required
+            /></label>
+            <label
+              >Vehicle
+              <select id="delivVehicle" required></select
+            ></label>
+            <label
+              >Status
+              <select id="delivStatus">
+                <option>Scheduled</option>
+                <option>Dispatched</option>
+                <option>Completed</option>
+                <option>Cancelled</option>
+              </select>
+            </label>
+            <label class="full"
+              >Notes
+              <textarea id="delivNotes" placeholder="Meet contact on arrival, etc."></textarea>
+            </label>
+          </div>
+        </div>
+        <div class="dialog-header" style="border-top: 1px solid var(--border)">
+          <div class="row">
+            <button value="cancel" class="ghost">Cancel</button>
+            <button id="saveDelivery" class="primary">Save</button>
+          </div>
+        </div>
+      </form>
+    </dialog>
+
+    <script type="module" src="app.js"></script>
+  </body>
 </html>
