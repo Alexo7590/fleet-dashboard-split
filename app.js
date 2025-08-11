@@ -715,3 +715,69 @@ function mount() {
 }
 mount();
 export { App, UI, Util };
+
+/* ===== Import validation wiring ===== */
+(function () {
+  const input = document.getElementById("importInput");
+  if (!input) return;
+
+  // Avoid duplicate listeners (Live Server reloads)
+  const clone = input.cloneNode(true);
+  input.parentNode.replaceChild(clone, input);
+
+  clone.addEventListener("change", async (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    try {
+      const text = await file.text();
+      let parsed;
+      try { parsed = JSON.parse(text); }
+      catch (err) {
+        showImportReport({ ok: false, errors: ["Invalid JSON: " + err.message], warnings: [] });
+        return;
+      }
+      const { validateImport } = await import("./import-validator.js");
+      const res = validateImport(parsed);
+      showImportReport(res);
+      if (res.ok && res.data) {
+        // adopt data if your app exposes DB/save/refresh
+        if (typeof window.DB !== "undefined") window.DB = res.data;
+        if (typeof save === "function") save();
+        if (typeof refresh === "function") refresh();
+      }
+    } catch (err) {
+      showImportReport({ ok: false, errors: ["Import failed: " + err.message], warnings: [] });
+    } finally {
+      e.target.value = "";
+    }
+  });
+})();
+
+function showImportReport(res) {
+  const dlg = document.getElementById("importReport");
+  const enc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;", "\"":"&quot;","'":"&#39;" }[c]));
+  if (!dlg) {
+    if (res.ok) {
+      alert(`Import OK: ${res.data?.vehicles?.length || 0} vehicles, ${res.data?.deliveries?.length || 0} deliveries.` +
+        (res.warnings?.length ? `\nWarnings:\n- ${res.warnings.slice(0,10).join("\n- ")}` : ""));
+    } else {
+      alert("Import failed:\n- " + res.errors.slice(0,10).join("\n- "));
+    }
+    return;
+  }
+  const sum = document.getElementById("importSummary");
+  const wList = document.getElementById("importWarnings");
+  const eList = document.getElementById("importErrors");
+  const wWrap = document.getElementById("importWarningsWrap");
+  const eWrap = document.getElementById("importErrorsWrap");
+
+  sum.textContent = res.ok
+    ? `Import OK: ${res.data?.vehicles?.length || 0} vehicles, ${res.data?.deliveries?.length || 0} deliveries.`
+    : "Import failed — no data was applied.";
+
+  wList.innerHTML = (res.warnings || []).slice(0,100).map(s => `<li>${enc(s)}</li>`).join("");
+  eList.innerHTML = (res.errors || []).slice(0,100).map(s => `<li>${enc(s)}</li>`).join("");
+  wWrap.classList.toggle("hide", !(res.warnings && res.warnings.length));
+  eWrap.classList.toggle("hide", !(res.errors && res.errors.length));
+  dlg.showModal();
+}

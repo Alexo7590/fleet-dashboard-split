@@ -81,3 +81,6 @@ textarea{resize:vertical;min-height:80px}
 .legend{display:flex;gap:8px;flex-wrap:wrap}
 .legend .dot{width:8px;height:8px;border-radius:999px;background:currentColor}
 canvas{width:100%;height:54px}
+
+/* utility */
+.hide{display:none !important}
