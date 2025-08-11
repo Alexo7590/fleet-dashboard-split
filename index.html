@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -67,7 +67,7 @@
               <div class="label">Upcoming Deliveries (7d)</div>
               <div class="value" data-kpi="upcomingDeliveries">0</div>
             </div>
-            <div class="trend mini" data-kpi="nextDelivery">—</div>
+            <div class="trend mini" data-kpi="nextDelivery">â€”</div>
           </div>
           <div class="card kpi bad">
             <div>
@@ -90,7 +90,7 @@
             <span class="pill"
               ><span class="dot" style="color: var(--primary)"></span>Utilization %</span
             >
-            <span class="pill"><span class="dot" style="color: var(--ok)"></span>7‑day avg</span>
+            <span class="pill"><span class="dot" style="color: var(--ok)"></span>7â€‘day avg</span>
           </div>
         </div>
 
@@ -105,9 +105,9 @@
           <table aria-label="Upcoming deliveries">
             <thead>
               <tr>
-                <th class="sortable" data-sort="date">Date <span class="dir">↕</span></th>
+                <th class="sortable" data-sort="date">Date <span class="dir">â†•</span></th>
                 <th>Vehicle</th>
-                <th>From → To</th>
+                <th>From â†’ To</th>
                 <th>Driver</th>
                 <th>Status</th>
                 <th></th>
@@ -116,7 +116,7 @@
             <tbody id="upcomingBody"></tbody>
           </table>
           <div class="footer mini">
-            Auto-filters deliveries with a pickup date between today and +7 days. Use “All” to show
+            Auto-filters deliveries with a pickup date between today and +7 days. Use â€œAllâ€ to show
             the full list.
           </div>
         </div>
@@ -132,9 +132,9 @@
           <table aria-label="Recent deliveries">
             <thead>
               <tr>
-                <th class="sortable" data-sort="date">Date <span class="dir">↕</span></th>
+                <th class="sortable" data-sort="date">Date <span class="dir">â†•</span></th>
                 <th>Vehicle</th>
-                <th>From → To</th>
+                <th>From â†’ To</th>
                 <th>Driver</th>
                 <th>Status</th>
                 <th></th>
@@ -148,18 +148,18 @@
           <div class="row">
             <h2 class="spacer">Vehicles Ready for Immediate Deployment</h2>
             <div class="chips">
-              <span class="badge ok">SOC ≥ 40%</span>
+              <span class="badge ok">SOC â‰¥ 40%</span>
               <span class="badge ok">No maintenance due</span>
             </div>
           </div>
           <table aria-label="Available vehicles">
             <thead>
               <tr>
-                <th class="sortable" data-sort="id">ID <span class="dir">↕</span></th>
-                <th class="sortable" data-sort="plate">Plate <span class="dir">↕</span></th>
+                <th class="sortable" data-sort="id">ID <span class="dir">â†•</span></th>
+                <th class="sortable" data-sort="plate">Plate <span class="dir">â†•</span></th>
                 <th>Model</th>
                 <th>Energy</th>
-                <th class="sortable" data-sort="soc">SOC % <span class="dir">↕</span></th>
+                <th class="sortable" data-sort="soc">SOC % <span class="dir">â†•</span></th>
                 <th>Status</th>
                 <th>Location</th>
                 <th></th>
@@ -209,7 +209,7 @@
               <input id="fltSocMin" type="number" min="0" max="100" value="0" style="width: 72px"
             /></label>
             <label class="pill"
-              >12V ≥ (V)
+              >12V â‰¥ (V)
               <input
                 id="flt12vMin"
                 type="number"
@@ -255,16 +255,16 @@
           <table aria-label="Fleet table" id="fleetTable">
             <thead>
               <tr>
-                <th class="sortable" data-sort="id">ID <span class="dir">↕</span></th>
-                <th class="sortable" data-sort="plate">Plate <span class="dir">↕</span></th>
-                <th class="sortable" data-sort="model">Model <span class="dir">↕</span></th>
+                <th class="sortable" data-sort="id">ID <span class="dir">â†•</span></th>
+                <th class="sortable" data-sort="plate">Plate <span class="dir">â†•</span></th>
+                <th class="sortable" data-sort="model">Model <span class="dir">â†•</span></th>
                 <th>Energy</th>
-                <th class="sortable" data-sort="soc">SOC % <span class="dir">↕</span></th>
+                <th class="sortable" data-sort="soc">SOC % <span class="dir">â†•</span></th>
                 <th>12V (V)</th>
                 <th>Status</th>
                 <th>Health</th>
-                <th class="sortable" data-sort="city">City <span class="dir">↕</span></th>
-                <th class="sortable" data-sort="pool">Pool <span class="dir">↕</span></th>
+                <th class="sortable" data-sort="city">City <span class="dir">â†•</span></th>
+                <th class="sortable" data-sort="pool">Pool <span class="dir">â†•</span></th>
                 <th>Location</th>
                 <th>Notes</th>
                 <th></th>
@@ -273,7 +273,7 @@
             <tbody id="fleetBody"></tbody>
           </table>
           <div class="footer mini">
-            Columns sortable • Filters + pagination apply after filtering • Import supports (city,
+            Columns sortable â€¢ Filters + pagination apply after filtering â€¢ Import supports (city,
             pool, soc, aux12v).
           </div>
         </div>
@@ -290,7 +290,7 @@
       <form method="dialog">
         <div class="dialog-header">
           <strong id="vehicleDialogTitle">Add Vehicle</strong>
-          <button class="ghost" value="cancel" aria-label="Close">✕</button>
+          <button class="ghost" value="cancel" aria-label="Close">âœ•</button>
         </div>
         <div class="dialog-body">
           <div class="form">
@@ -355,7 +355,7 @@
       <form method="dialog">
         <div class="dialog-header">
           <strong id="deliveryDialogTitle">Add Delivery</strong>
-          <button class="ghost" value="cancel" aria-label="Close">✕</button>
+          <button class="ghost" value="cancel" aria-label="Close">âœ•</button>
         </div>
         <div class="dialog-body">
           <div class="form">
@@ -365,8 +365,8 @@
               >Driver <input id="delivDriver" type="text" placeholder="Maria Andersson" required
             /></label>
             <label class="full"
-              >Route (From → To)
-              <input id="delivRoute" type="text" placeholder="Gothenburg → Umeå" required
+              >Route (From â†’ To)
+              <input id="delivRoute" type="text" placeholder="Gothenburg â†’ UmeÃ¥" required
             /></label>
             <label
               >Vehicle
@@ -397,7 +397,30 @@
     </dialog>
 
     <script type="module" src="app.js"></script>
-  </body>
+    <!-- Import results dialog -->
+  <dialog id="importReport" aria-label="Import results">
+    <form method="dialog">
+      <div class="dialog-header">
+        <strong>Import results</strong>
+        <button class="ghost" value="cancel" aria-label="Close">âœ•</button>
+      </div>
+      <div class="dialog-body">
+        <div id="importSummary" style="margin-bottom:8px;"></div>
+        <div id="importWarningsWrap" class="hide">
+          <h3 style="margin:0 0 6px 0;font-size:14px;">Warnings</h3>
+          <ul id="importWarnings" style="margin:0 0 12px 18px; padding:0;"></ul>
+        </div>
+        <div id="importErrorsWrap" class="hide">
+          <h3 style="margin:12px 0 6px 0;font-size:14px;">Errors</h3>
+          <ul id="importErrors" style="margin:0 0 0 18px; padding:0;"></ul>
+        </div>
+      </div>
+      <div class="dialog-header" style="border-top:1px solid var(--border)">
+        <button value="cancel" class="primary">OK</button>
+      </div>
+    </form>
+  </dialog>
+</body>
 </html>
 < ! - -   t e s t   c h a n g e   - - >  
  
